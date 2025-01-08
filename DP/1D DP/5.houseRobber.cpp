@@ -36,7 +36,7 @@ int rob(vector<int> &nums)
 {
     int n = nums.size();
     t.resize(n, -1);
-    return solve(nums, n - 1);
+    return solve(nums, n - 1);  // yha hmne n-1 krke bheja h
 }
 
 // APP 2 (BOTTOM UP) : --------------------------------------------------
