@@ -1,0 +1,78 @@
+// You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+// Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+// Example 1:
+// Input: nums = [1,2,3,1]
+// Output: 4
+// Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+// Total amount you can rob = 1 + 3 = 4.
+
+// Example 2:
+// Input: nums = [2,7,9,3,1]
+// Output: 12
+// Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+// Total amount you can rob = 2 + 9 + 1 = 12.
+ 
+// Constraints:
+// 1 <= nums.length <= 100
+// 0 <= nums[i] <= 400
+
+// APP 1 (TOP DOWN) : --------------------------------------------------
+vector<int> t;
+int solve(vector<int> &nums, int n)
+{
+    if (n < 0)
+        return 0;
+    if (n == 0)
+        return nums[0];
+    if (t[n] != -1)
+        return t[n];
+    int take = nums[n] + solve(nums, n - 2);
+    int skip = solve(nums, n - 1);
+    return t[n] = max(take, skip);
+}
+
+int rob(vector<int> &nums)
+{
+    int n = nums.size();
+    t.resize(n, -1);
+    return solve(nums, n - 1);
+}
+
+// APP 2 (BOTTOM UP) : --------------------------------------------------
+int rob(vector<int> &nums)
+{
+    int n = nums.size();
+    if (n == 0)
+        return 0;
+    if (n == 1)
+        return nums[0];
+    vector<int> t(n);
+    t[0] = nums[0];
+    t[1] = max(nums[0], nums[1]);
+    for (int i = 2; i <= n - 1; i++)
+    {
+        t[i] = max(nums[i] + t[i - 2], t[i - 1]);
+    }
+    return t[n - 1];
+}
+
+// APP 3 (SPACE OPTIMIZATION) : --------------------------------------------
+int rob(vector<int> &nums)
+{
+    int n = nums.size();
+    if (n == 0)
+        return 0;
+    if (n == 1)
+        return nums[0];
+    vector<int> t(n);
+    int prev2 = nums[0];
+    int prev = max(nums[0], nums[1]);
+    for (int i = 2; i <= n - 1; i++)
+    {
+        int curr = max(nums[i] + prev2, prev);
+        prev2 = prev;
+        prev = curr;
+    }
+    return prev;
+}
