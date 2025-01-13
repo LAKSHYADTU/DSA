@@ -62,17 +62,17 @@ int fib(int n)  //TC = O(n) , SC = O(n)
 }
 
 // APP 4 (SPACE OPTIMIZATION) : -------------------------------------------------
-int fib(int n)  //TC = O(n) , SC = O(1)
+int fib(int n) // TC = O(n) , SC = O(1)
 {
   if (n <= 1)
     return n;
-  int prev2 = 0 , prev = 1;
-  int curr;
+  int prev2 = 0;
+  int prev = 1;
   for (int i = 2; i <= n; i++)
   {
-    curr = prev2 + prev;
+    int curr = prev2 + prev;
     prev2 = prev;
     prev = curr;
   }
-  return curr;
+  return prev;
 }
